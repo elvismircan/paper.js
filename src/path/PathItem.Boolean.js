@@ -448,9 +448,10 @@ PathItem.inject(new function() {
         } while (segment && !segment._intersection && segment !== start);
         // Calculate the average winding among three evenly distributed points
         // along this curve chain as a representative winding number.
-        for (var i = 0; i < 3; i++) {
+        var amount = 1;
+        for (var i = 0; i < amount; i++) {
             // Sample the points at 3 equal intervals along the total length:
-            var length = totalLength * (i + 1) / 4;
+            var length = totalLength * (i + 1) / (amount + 1);
             for (var j = 0, l = chain.length; j < l; j++) {
                 var entry = chain[j],
                     curveLength = entry.length;
@@ -480,7 +481,7 @@ PathItem.inject(new function() {
             }
         }
         // Assign the average winding to the entire curve chain.
-        var winding = Math.round(windingSum / 3);
+        var winding = Math.round(windingSum / amount);
         for (var j = chain.length - 1; j >= 0; j--)
             chain[j].segment._winding = winding;
     }
